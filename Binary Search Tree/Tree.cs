@@ -62,6 +62,17 @@ namespace Binary_Search_Tree
                 Display(root.rightc);
             }
         }
-       
+        public int GetSize()
+        {
+            return this.getSizeRecursively(root);
+        }
+
+        private int getSizeRecursively(Node Current)
+        {
+
+            return Current == null ? 0 : 1 + this.getSizeRecursively(Current.leftc)
+                                           + this.getSizeRecursively(Current.rightc);
+        }
+
     }
 }
