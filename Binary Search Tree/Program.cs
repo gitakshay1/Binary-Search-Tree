@@ -4,7 +4,7 @@
     {
         static void Main(string[] args)
         {
-            Tree tree=new Tree();
+            BinarySearchTree<int> tree=new BinarySearchTree<int>(56);
             tree.Insert(50);
             tree.Insert(30);
             tree.Insert(70);
@@ -18,7 +18,9 @@
             tree.Insert(95);
             tree.Insert(65);
             tree.Insert(3);
-            Console.WriteLine(tree.GetSize());
+            //Console.WriteLine(tree.GetSize());
+            bool result = tree.SearchKey(63,tree);
+            Console.WriteLine(result);
 
         }
     }

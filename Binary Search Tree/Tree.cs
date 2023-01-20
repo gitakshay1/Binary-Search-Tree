@@ -6,73 +6,83 @@ using System.Threading.Tasks;
 
 namespace Binary_Search_Tree
 {
-    internal class Tree
+    internal class BinarySearchTree<T> where T : IComparable<T>
     {
-        Node root;
-        public Tree()
+        public T NodeData { get; set; }
+        public BinarySearchTree<T> leftTree { get; set; }
+        public BinarySearchTree<T> rightTree { get; set; }
+
+        public BinarySearchTree(T nodeData)
         {
-            root = null;
+            this.NodeData = nodeData;
+            this.rightTree = null;
+            this.leftTree = null;
+
         }
-        public Node returnroot()
+
+        int leftCount = 0, rightCount = 0;
+        bool result = false;
+        public void Insert(T item)
         {
-            return root;
-        }
-        public void Insert(int data)
-        {
-            Node newnode=new Node(data);
-            if (root == null)
+            T currentNodeValue = this.NodeData;
+            if ((currentNodeValue.CompareTo(item)) > 0)
             {
-                root = newnode;
+                if (this.leftTree == null)
+                    this.leftTree = new BinarySearchTree<T>(item);
+                else
+                    this.leftTree.Insert(item);
             }
             else
             {
-                Node current=root;
-                Node paraent;
-                while(true)
-                {
-                    paraent = current;
-                    if (data < current.item)
-                    {
-                        current = current.leftc;
-                        if(current==null)
-                        {
-                            paraent.leftc = newnode;
-                            return;
-                        }
-                        
-                    }
-                    else
-                    {
-                        current = current.rightc;
-                        if (current == null)
-                        {
-                            paraent.rightc = newnode;
-                            return;
-                        }
-                    }
-                }
+                if (this.rightTree == null)
+                    this.rightTree = new BinarySearchTree<T>(item);
+                else
+                    this.rightTree.Insert(item);
             }
         }
-        public void Display(Node root)
+
+
+        public void Display()
         {
-            if(root != null)
+            if (this.leftTree != null)
             {
-                Console.WriteLine(root.item + " ");
-                Display(root.leftc);
-                Display(root.rightc);
+                this.leftCount++;
+                this.leftTree.Display();
+
+            }
+            Console.WriteLine(this.NodeData.ToString());
+            if (this.rightTree != null)
+            {
+                this.rightCount++;
+                this.rightTree.Display();
             }
         }
-        public int GetSize()
+
+        public void GetSize()
         {
-            return this.getSizeRecursively(root);
+            Console.WriteLine("Size" + " " + (1 + this.leftCount + this.rightCount));
         }
 
-        private int getSizeRecursively(Node Current)
+        public bool SearchKey(T element, BinarySearchTree<T> node)
         {
-
-            return Current == null ? 0 : 1 + this.getSizeRecursively(Current.leftc)
-                                           + this.getSizeRecursively(Current.rightc);
+            if (node == null)
+                return false;
+            if (node.NodeData.Equals(element))
+            {
+                Console.WriteLine("Found the element in BST" + " " + node.NodeData);
+                result = true;
+            }
+            else
+                Console.WriteLine("Current element is {0} in BST", node.NodeData);
+            if (element.CompareTo(node.NodeData) < 0)
+                SearchKey(element, node.leftTree);
+            if (element.CompareTo(node.NodeData) > 0)
+                SearchKey(element, node.rightTree);
+            return result;
         }
+
 
     }
+
+
 }
